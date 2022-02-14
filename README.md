@@ -12,12 +12,12 @@ pip install beautifulsoup4 requests urllib3
 
 # Usage
 ```
-python3 main.py --keywords [KW1 KW2 ...] --search_title [SEARCH_TITLE]  --search_abstract [SEARCH_ABSTRACT]
+python3 main.py --keywords [KW1 KW2 ...] --search_title [TITLE]  --search_abstract [ABSTRACT]
 ```
 where
 - `KW1 KW2 ...`: space-separated keywords;
-- `SEARCH_TITLE`: whether to search titles, `strtobool` format (see below);
-- `SEARCH_ABSTRACT`: whether to search abstracts, `strtobool` format (see below);
+- `TITLE`: whether to search titles, `strtobool` format (see below);
+- `ABSTRACT`: whether to search abstracts, `strtobool` format (see below);
 
 `strtobool` format evaluated inputs to boolean: `{y,yes,t,true,on,1}` yield `True` while `{n,no,f,false,off,0}` yield `False`;
 
