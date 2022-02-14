@@ -5,8 +5,27 @@ Displayed using collapsible HTML buttons - show titles, expand title to show abs
 
 ![Alt text](screen.png)
 
+# Requirements
+```
+pip install beautifulsoup4 requests urllib3
+```
+
 # Usage
-...
+```
+python3 main.py --keywords [KW1 KW2 ...] --search_title [SEARCH_TITLE]  --search_abstract [SEARCH_ABSTRACT]
+```
+where
+- `KW1 KW2 ...`: space-separated keywords;
+- `SEARCH_TITLE`: whether to search titles, `strtobool` format (see below);
+- `SEARCH_ABSTRACT`: whether to search abstracts, `strtobool` format (see below);
+
+`strtobool` format evaluated inputs to boolean: `{y,yes,t,true,on,1}` yield `True` while `{n,no,f,false,off,0}` yield `False`;
+
+# Example
+To search for articles containing the keyword *detection* in the *title* but not in the *abstract* use:
+```
+python3 main.py --keywords detection --search_title yes --search_abstract no
+```
 
 # Extensions
 Currently 'new' (today's) articles in the 'cs' domain are searched. 
