@@ -1,5 +1,7 @@
 # arxiv-news
-See the latest arXiv submissions filtered by keyword
+See the latest arXiv submissions filtered by keyword. 
+
+Displayed using collapsible HTML buttons - show titles, expand title to show abstract.
 
 ![Alt text](screen.png)
 
