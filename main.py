@@ -123,7 +123,7 @@ class news_generator:
             self.news.replace(ARTICLE_PLACEHOLDER, "")
 
 
-    def save_html(self):
+    def save_news(self):
 
          # save the html news file
         os.system("rm {}".format(self.html_news))
@@ -131,7 +131,7 @@ class news_generator:
             f.write(self.news)
 
 
-    def open_html(self):
+    def open_news(self):
 
         # open the html news file in the browser
         webbrowser.open_new_tab("file://" + str(self.html_news.resolve()))
@@ -183,8 +183,8 @@ if __name__ == "__main__":
         news = news_generator()
         news.extract_info_from_webpage()
         news.generate_news()
-        news.save_html()
-        news.open_html()
+        news.save_news()
+        news.open_news()
     except KeyboardInterrupt:
         print ('Interrupted by user')
 
