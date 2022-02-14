@@ -35,6 +35,9 @@ Currently 'new' (today's) articles in the 'cs' domain are searched.
   - other horizons instead of 'new' (e.g. 'pastweek', https://arxiv.org/list/cs/pastweek?skip=0&show=2000);
 - Dynamic search:
   - have a dynamic html page to perform the search (tools: FastAPI);
+- Automate search:
+  - schedule running the script;
+  - upload/publish/email search results;
 
 # Tools
 **Web Scrapping**: BautifulSoup, HTML-CSS
