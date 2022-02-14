@@ -168,6 +168,9 @@ if __name__ == "__main__":
                     + ('abstract' if SEARCH_ABSTRACT else '') + '}...'), end=' '
     )
 
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print ('Interrupted by user')
 
     print("Done!")
