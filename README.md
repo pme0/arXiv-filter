@@ -7,7 +7,7 @@ Displayed using collapsible HTML buttons - show titles, expand title to show abs
 
 # Requirements
 ```
-pip install beautifulsoup4 requests urllib3
+pip install -r requirements.txt
 ```
 
 # Usage
