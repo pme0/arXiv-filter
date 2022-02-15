@@ -75,13 +75,8 @@ class news_generator:
 
 
     def read_webpage(self, url):
-        """
-        Read webpage contents.
-
-        Use a 'context' that does not verify SSL certification to avoid the error:
-        "urllib.error.URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed>"
-        """
-        
+        # Use a 'context' that does not verify SSL certification to avoid the error:
+        # "urllib.error.URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed>"
         page = urllib.request.urlopen(url, context=ssl._create_unverified_context())
         soup = bs(page, features="html.parser")
         content = soup.body.find("div", {'id': 'content'})
@@ -135,11 +130,6 @@ class news_generator:
 
 
     def generate_news(self):
-        """
-        Generate the news document.
-        
-        Sequentially fill-in snippet with article information and append to 
-        """
 
         self.info_date, \
         info_dt, \
@@ -169,8 +159,6 @@ class news_generator:
 
 
     def save_news(self):
-
-        # save the html news file
         with open(self.html_news, "w") as f:
             f.write(self.news)
 
@@ -180,13 +168,10 @@ class news_generator:
 
 
     def open_news(self):
-
-        # open the html news file in the browser
         webbrowser.open_new_tab("file://" + str(self.html_news.resolve()))
 
 
     def progress(self, stage):
-
         if stage == 'start':
             fields = "{" + ("title" if SEARCH_TITLE else "") \
                 + (", " if SEARCH_TITLE and SEARCH_ABSTRACT else "") \
