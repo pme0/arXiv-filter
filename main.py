@@ -8,14 +8,46 @@ import urllib.request
 import webbrowser
 
 
+def parse_arguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--keywords", nargs='+', help="The keywords included in the search")
+    parser.add_argument("--url", type=str, default="https://arxiv.org/list/cs/new", help="The website to seach")
+    parser.add_argument('--search_title', default=True, type=lambda x: bool(strtobool(str(x))), help="Search title?")  # strtobool: True values (int: 1) are y, yes, t, true, on and 1. False values (int: 0) are n, no, f, false, off and 0"
+    parser.add_argument('--search_abstract', default=True, type=lambda x: bool(strtobool(str(x))), help="Search abstract?")
+    parser.add_argument("--date_placeholder", type=str, default="DATE", help="Must be found in `news_template.html`, for substitution")
+    parser.add_argument("--article_placeholder", type=str, default="ARTICLE", help="Must be found in `news_template.html`, for substitution")
+    return parser.parse_args()
+
+
 class news_generator:
+    """
+    Class that generates html page with recently published arXiv articles.
+
+    The process will be the following:
+    (1) Import an html template;
+    (2) Import collapsible button snippet;
+    (3) Replace placeholders in snippet (TITLE/ABSTRACT/LINK) with information for each article;
+    (4) Replace placeholders in the html template (ARTICLE/DATE) with the snippet from (3);
+    """
 
     def __init__(self):
-        
+
         self.html_template = Path(HTML_DIR, "news_template.html")
         self.html_news = Path(HTML_DIR, "news.html")
 
-        # this snippet defines the collapsible button
+        if not HTML_DIR.is_dir():
+            raise FileNotFoundError(f"Directory HTML_DIR={HTML_DIR} does not exist.")
+
+        if not self.html_template.is_file():
+            raise FileNotFoundError(f"File html_template={self.html_template} does not exist.")
+
+        if self.html_news.is_file():
+            os.remove(self.html_news)
+
+        # The snippet defines the collapsible button.
+        # The placeholders TITLE/LINK/ABSTRACT will be replace with the 
+        # coorresponding content for each article and the filled-in
+        # snippet appended to the html page.
         self.snippet = """
         <button type="button" class="collapsible">TITLE</button>
         <div class="content">
@@ -24,8 +56,8 @@ class news_generator:
         </div>
         """
 
-        # read the html template
-        # information for each article will be added to this html file
+        # Read html template.
+        # Information for each article will be sequencially added to this.
         with open(self.html_template, "r") as f:
             self.news = f.read()
 
@@ -33,12 +65,20 @@ class news_generator:
         assert DATE_PLACEHOLDER in self.news 
         assert ARTICLE_PLACEHOLDER in self.news
 
+        # must choose at least one search field out of {title, abstract} 
+        assert SEARCH_TITLE or SEARCH_ABSTRACT
+
+        # must choose at least one search keyword
+        assert isinstance(KEYWORDS, list)
+        assert len(KEYWORDS) > 0
+
+
 
     def read_webpage(self, url):
         """
-        Read webpage contents
+        Read webpage contents.
 
-        use a 'context' that does not verify SSL certification to avoid the error:
+        Use a 'context' that does not verify SSL certification to avoid the error:
         "urllib.error.URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed>"
         """
         
@@ -95,6 +135,11 @@ class news_generator:
 
 
     def generate_news(self):
+        """
+        Generate the news document.
+        
+        Sequentially fill-in snippet with article information and append to 
+        """
 
         self.info_date, \
         info_dt, \
@@ -125,10 +170,13 @@ class news_generator:
 
     def save_news(self):
 
-         # save the html news file
-        os.system("rm {}".format(self.html_news))
+        # save the html news file
         with open(self.html_news, "w") as f:
             f.write(self.news)
+
+
+    def publish_news(self):
+        pass
 
 
     def open_news(self):
@@ -137,19 +185,25 @@ class news_generator:
         webbrowser.open_new_tab("file://" + str(self.html_news.resolve()))
 
 
+    def progress(self, stage):
+
+        if stage == 'start':
+            fields = "{" + ("title" if SEARCH_TITLE else "") \
+                + (", " if SEARCH_TITLE and SEARCH_ABSTRACT else "") \
+                + ("abstract" if SEARCH_ABSTRACT else "") + "}..."
+            print("Searching {URL} for keywords {KEYWORDS} in {FIELDS}".format(
+                    URL=URL, KEYWORDS=KEYWORDS, FIELDS=fields), 
+                end=' ', flush=True)
+        elif stage == 'end':
+            print("Done!")
+        else:
+            raise NotImplementedError
+
+
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--keywords", nargs='+', help="The keywords included in the search")
-    parser.add_argument("--url", type=str, default="https://arxiv.org/list/cs/new", help="The website to seach")
-    parser.add_argument('--search_title', default=True, type=lambda x: bool(strtobool(str(x))), help="Search title?")  # strtobool: True values (int: 1) are y, yes, t, true, on and 1. False values (int: 0) are n, no, f, false, off and 0"
-    parser.add_argument('--search_abstract', default=True, type=lambda x: bool(strtobool(str(x))), help="Search abstract?")
-    parser.add_argument("--date_placeholder", type=str, default="DATE_PLACEHOLDER", help="Must be found in `news_template.html`, for substitution")
-    parser.add_argument("--article_placeholder", type=str, default="ARTICLE_PLACEHOLDER", help="Must be found in `news_template.html`, for substitution")
-
-    args = parser.parse_args()
-
     # for readability
+    args = parse_arguments()
     URL = args.url
     KEYWORDS = args.keywords
     SEARCH_TITLE = args.search_title
@@ -161,32 +215,14 @@ if __name__ == "__main__":
     # currently the same as `main.py` script folder
     HTML_DIR = Path(os.path.realpath(__file__)).parent
 
-    # must choose at least one search field out of {title, abstract} 
-    assert SEARCH_TITLE or SEARCH_ABSTRACT
-
-    # must choose at least one search keyword
-    assert isinstance(KEYWORDS, list)
-    assert len(KEYWORDS) > 0
-
-
-    print("Searching {URL} for keywords {KEYWORDS} in {FIELDS}".format(
-        URL=URL, 
-        KEYWORDS=KEYWORDS, 
-        FIELDS='{' + ('title' if SEARCH_TITLE else '') 
-                    + (', ' if SEARCH_TITLE and SEARCH_ABSTRACT else '') 
-                    + ('abstract' if SEARCH_ABSTRACT else '') + '}...'
-        ), end=' ', flush=True
-    )
-
 
     try:
         news = news_generator()
+        news.progress('start')
         news.extract_info_from_webpage()
         news.generate_news()
         news.save_news()
         news.open_news()
+        news.progress('end')
     except KeyboardInterrupt:
         print ('Interrupted by user')
-
-
-    print("Done!")
