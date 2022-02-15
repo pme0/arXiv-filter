@@ -19,7 +19,7 @@ where
 - `TITLE`: whether to search titles, `strtobool` format (see below);
 - `ABSTRACT`: whether to search abstracts, `strtobool` format (see below);
 
-`strtobool` format evaluated inputs to boolean: `{y,yes,t,true,on,1}` yield `True` while `{n,no,f,false,off,0}` yield `False`;
+`distutils.util.strtobool()` evaluates inputs to boolean: `{y,yes,t,true,on,1}` evaluate to `True` while `{n,no,f,false,off,0}` evaluate to `False`;
 
 # Example
 To search for articles containing the keyword *detection* in the *title* but not in the *abstract* use:
