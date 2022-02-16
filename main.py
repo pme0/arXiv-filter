@@ -4,6 +4,7 @@ from distutils.util import strtobool
 import os
 from pathlib import Path
 import ssl
+import sys
 import urllib.request
 import webbrowser
 
@@ -32,17 +33,9 @@ class news_generator:
 
     def __init__(self):
 
-        self.html_template = Path(HTML_DIR, "news_template.html")
-        self.html_news = Path(HTML_DIR, "news.html")
-
-        if not HTML_DIR.is_dir():
-            raise FileNotFoundError(f"Directory HTML_DIR={HTML_DIR} does not exist.")
-
-        if not self.html_template.is_file():
-            raise FileNotFoundError(f"File html_template={self.html_template} does not exist.")
-
-        if self.html_news.is_file():
-            os.remove(self.html_news)
+        # Relative paths to files
+        self.template_file = Path("news_template.html")
+        self.news_file = Path("news.html")
 
         # The snippet defines the collapsible button.
         # The placeholders TITLE/LINK/ABSTRACT will be replace with the 
@@ -58,7 +51,7 @@ class news_generator:
 
         # Read html template.
         # Information for each article will be sequencially added to this.
-        with open(self.html_template, "r") as f:
+        with open(self.template_file, "r") as f:
             self.news = f.read()
 
         # `DATE_PLACEHOLDER` and `ARTICLE_PLACEHOLDER` must match a section found in `news_template.html`
@@ -71,7 +64,6 @@ class news_generator:
         # must choose at least one search keyword
         assert isinstance(KEYWORDS, list)
         assert len(KEYWORDS) > 0
-
 
 
     def read_webpage(self, url):
@@ -159,7 +151,11 @@ class news_generator:
 
 
     def save_news(self):
-        with open(self.html_news, "w") as f:
+        
+        if self.news_file.is_file():
+            os.remove(self.news_file)
+
+        with open(self.news_file, "w") as f:
             f.write(self.news)
 
 
@@ -168,15 +164,15 @@ class news_generator:
 
 
     def open_news(self):
-        webbrowser.open_new_tab("file://" + str(self.html_news.resolve()))
+        webbrowser.open_new_tab("file://" + str(self.news_file.resolve()))
 
 
     def progress(self, stage):
         if stage == 'start':
             fields = "{" + ("title" if SEARCH_TITLE else "") \
-                + (", " if SEARCH_TITLE and SEARCH_ABSTRACT else "") \
-                + ("abstract" if SEARCH_ABSTRACT else "") + "}..."
-            print("Searching {URL} for keywords {KEYWORDS} in {FIELDS}".format(
+                        + (", " if SEARCH_TITLE and SEARCH_ABSTRACT else "") \
+                        + ("abstract" if SEARCH_ABSTRACT else "") + "}..."
+            print("Searching '{URL}' for keywords {KEYWORDS} in {FIELDS}".format(
                     URL=URL, KEYWORDS=KEYWORDS, FIELDS=fields), 
                 end=' ', flush=True)
         elif stage == 'end':
@@ -196,11 +192,6 @@ if __name__ == "__main__":
     DATE_PLACEHOLDER = args.date_placeholder
     ARTICLE_PLACEHOLDER = args.article_placeholder
 
-    # where to read the html template from, and write the new file to
-    # currently the same as `main.py` script folder
-    HTML_DIR = Path(os.path.realpath(__file__)).parent
-
-
     try:
         news = news_generator()
         news.progress('start')
@@ -210,4 +201,5 @@ if __name__ == "__main__":
         news.open_news()
         news.progress('end')
     except KeyboardInterrupt:
-        print ('Interrupted by user')
+        print ('\nInterrupted by user.')
+        
