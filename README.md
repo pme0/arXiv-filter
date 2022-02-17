@@ -4,8 +4,9 @@ See the latest arXiv submissions filtered by keyword.
 Displayed using collapsible HTML buttons - show titles, expand title to show abstract and link.
 
 **============== Collapsed ==============**
-
+![Alt text](screen_collapsed.png)
 **============== Expanded ==============**
+![Alt text](screen_collapsed.png)
 
 # Requirements
 ```
