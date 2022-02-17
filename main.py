@@ -11,12 +11,10 @@ import webbrowser
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--keywords", nargs='+', help="The keywords included in the search")
+    parser.add_argument("--keywords", "--kw", nargs='+', help="The keywords included in the search")
     parser.add_argument("--url", type=str, default="https://arxiv.org/list/cs/new", help="The website to seach")
-    parser.add_argument('--search_title', default=True, type=lambda x: bool(strtobool(str(x))), help="Search title?")  # strtobool: True values (int: 1) are y, yes, t, true, on and 1. False values (int: 0) are n, no, f, false, off and 0"
-    parser.add_argument('--search_abstract', default=True, type=lambda x: bool(strtobool(str(x))), help="Search abstract?")
-    parser.add_argument("--date_placeholder", type=str, default="DATE", help="Must be found in `news_template.html`, for substitution")
-    parser.add_argument("--article_placeholder", type=str, default="ARTICLE", help="Must be found in `news_template.html`, for substitution")
+    parser.add_argument("--search_title", "--title", default=True, type=lambda x: bool(strtobool(str(x))), help="Search title?")  # strtobool: True values (int: 1) are y, yes, t, true, on and 1. False values (int: 0) are n, no, f, false, off and 0"
+    parser.add_argument("--search_abstract", "--abstract", default=True, type=lambda x: bool(strtobool(str(x))), help="Search abstract?")
     return parser.parse_args()
 
 
@@ -34,7 +32,8 @@ class news_generator:
     def __init__(self):
 
         # Relative paths to files
-        self.template_file = Path("news_template.html")
+        self.template_head_file = Path("news_template_head.html")
+        self.template_tail_file = Path("news_template_tail.html")
         self.news_file = Path("news.html")
 
         # The snippet defines the collapsible button.
@@ -51,12 +50,11 @@ class news_generator:
 
         # Read html template.
         # Information for each article will be sequencially added to this.
-        with open(self.template_file, "r") as f:
-            self.news = f.read()
+        with open(self.template_head_file, "r") as f:
+            self.news_head = f.read()
 
-        # `DATE_PLACEHOLDER` and `ARTICLE_PLACEHOLDER` must match a section found in `news_template.html`
-        assert DATE_PLACEHOLDER in self.news 
-        assert ARTICLE_PLACEHOLDER in self.news
+        with open(self.template_tail_file, "r") as f:
+            self.news_tail = f.read()
 
         # must choose at least one search field out of {title, abstract} 
         assert SEARCH_TITLE or SEARCH_ABSTRACT
@@ -66,10 +64,10 @@ class news_generator:
         assert len(KEYWORDS) > 0
 
 
-    def read_webpage(self, url):
+    def read_webpage(self):
         # Use a 'context' that does not verify SSL certification to avoid the error:
         # "urllib.error.URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed>"
-        page = urllib.request.urlopen(url, context=ssl._create_unverified_context())
+        page = urllib.request.urlopen(URL, context=ssl._create_unverified_context())
         soup = bs(page, features="html.parser")
         content = soup.body.find("div", {'id': 'content'})
         return content
@@ -113,7 +111,7 @@ class news_generator:
         </dd>
         """
         
-        content = self.read_webpage(URL)
+        content = self.read_webpage()
         info_date = content.find("h3").text.split(',')[1]
         info_dt = content.dl.find_all("dt")
         info_dd = content.dl.find_all("dd")
@@ -127,6 +125,9 @@ class news_generator:
         info_dt, \
         info_dd = self.extract_info_from_webpage()
 
+        self.news = self.news_head
+        self.news += "<h2>arXiv, {}</h2>\n".format(self.info_date)
+
         for i in range(len(info_dd)):
         
             title = info_dd[i].find("div", {"class": "list-title mathjax"}).text.strip().replace("Title: ", "")
@@ -137,17 +138,16 @@ class news_generator:
             search_string = ""
             search_string += title if SEARCH_TITLE is True else " "
             search_string += abstract if SEARCH_ABSTRACT is True else ""
-                
+
             for keyword in KEYWORDS:
                 if keyword.lower() in search_string.lower():
                     article = self.snippet
                     article = article.replace("TITLE", title)
                     article = article.replace("LINK", link)
                     article = article.replace("ABSTRACT", abstract)
-                    self.news = self.news.replace(ARTICLE_PLACEHOLDER, article + ARTICLE_PLACEHOLDER)
+                    self.news += article
 
-            self.news = self.news.replace(DATE_PLACEHOLDER, self.info_date)
-            self.news.replace(ARTICLE_PLACEHOLDER, "")
+        self.news += self.news_tail
 
 
     def save_news(self):
@@ -189,8 +189,6 @@ if __name__ == "__main__":
     KEYWORDS = args.keywords
     SEARCH_TITLE = args.search_title
     SEARCH_ABSTRACT = args.search_abstract
-    DATE_PLACEHOLDER = args.date_placeholder
-    ARTICLE_PLACEHOLDER = args.article_placeholder
 
     try:
         news = news_generator()
@@ -202,4 +200,3 @@ if __name__ == "__main__":
         news.progress('end')
     except KeyboardInterrupt:
         print ('\nInterrupted by user.')
-        
