@@ -12,12 +12,17 @@ pip install -r requirements.txt
 
 # Usage
 ```
-python3 main.py --keywords [KW1 KW2 ...] --search_title [TITLE]  --search_abstract [ABSTRACT]
+python3 main.py
+  --keywords [kw1 kw2 ...] 
+  --channel [ch]
+  --search_title [y/n]  
+  --search_abstract [y/n]
 ```
 where
-- `KW1 KW2 ...`: space-separated keywords;
-- `TITLE`: whether to search titles, `strtobool` format (see below);
-- `ABSTRACT`: whether to search abstracts, `strtobool` format (see below);
+- `--keywords`: space-separated keywords;
+- `--channel`: the arXiv channel to search ('cs', 'cs.CV', 'stat', ...);
+- `--search_title`: whether to search titles, `strtobool` format (see below);
+- `--search_abstract`: whether to search abstracts, `strtobool` format (see below);
 
 `bool(distutils.util.strtobool(x))` evaluates input `x` to boolean: 
 - `{y,yes,t,true,on,1}` evaluate to `True`;
@@ -26,7 +31,7 @@ where
 # Example
 To search for articles containing the keyword *detection* in the *title* but not in the *abstract* use:
 ```
-python3 main.py --keywords detection --search_title yes --search_abstract no
+python3 main.py --keywords detection --channel cs.CV --search_title yes --search_abstract no
 ```
 
 # Extensions
