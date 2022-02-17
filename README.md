@@ -6,7 +6,7 @@ Displayed using collapsible HTML buttons - show titles, expand title to show abs
 **============== Collapsed ==============**
 ![Alt text](screen_collapsed.png)
 **============== Expanded ==============**
-![Alt text](screen_expanded.png)
+![Alt text](screen_expanded.png) 
 
 # Requirements
 ```
