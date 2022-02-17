@@ -33,7 +33,6 @@ python3 main.py --keywords detection --search_title yes --search_abstract no
 Currently 'new' (today's) articles in the 'cs' domain are searched. 
 
 - Extend search:
-  - others domains instead of 'cs', (e.g. 'stat'); or subdomains (e.g. 'cs.LG'/'cs.CV');
   - other horizons instead of 'new' (e.g. 'pastweek', https://arxiv.org/list/cs/pastweek?skip=0&show=2000);
 - Dynamic search:
   - have a dynamic html page to perform the search (tools: FastAPI);
