@@ -12,7 +12,7 @@ import webbrowser
 def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("--keywords", "--kw", nargs='+', help="The keywords included in the search")
-    parser.add_argument("--url", type=str, default="https://arxiv.org/list/cs/new", help="The website to seach")
+    parser.add_argument("--channel", type=str, default="cs", help="The channel to seach (cs, stat, ...)")
     parser.add_argument("--search_title", "--title", default=True, type=lambda x: bool(strtobool(str(x))), help="Search title?")  # strtobool: True values (int: 1) are y, yes, t, true, on and 1. False values (int: 0) are n, no, f, false, off and 0"
     parser.add_argument("--search_abstract", "--abstract", default=True, type=lambda x: bool(strtobool(str(x))), help="Search abstract?")
     return parser.parse_args()
@@ -185,10 +185,12 @@ if __name__ == "__main__":
 
     # for readability
     args = parse_arguments()
-    URL = args.url
+    CHANNEL = args.channel
     KEYWORDS = args.keywords
     SEARCH_TITLE = args.search_title
     SEARCH_ABSTRACT = args.search_abstract
+
+    URL = "https://arxiv.org/list/{}/new".format(CHANNEL)
 
     try:
         news = news_generator()
