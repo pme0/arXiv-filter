@@ -14,6 +14,13 @@ pip install -r requirements.txt
 ```
 
 # Usage
+
+To search for articles containing the keyword *detection* in the *title* but not in the *abstract* use:
+```
+python3 main.py --keywords detection --channel cs.CV --search_title yes --search_abstract no
+```
+
+The general format is:
 ```
 python3 main.py
   --keywords [kw1 kw2 ...] 
@@ -27,17 +34,11 @@ where
 - `--search_title`: whether to search titles, `strtobool` format (see below);
 - `--search_abstract`: whether to search abstracts, `strtobool` format (see below);
 
-`bool(distutils.util.strtobool(x))` evaluates input `x` to boolean: 
+The code uses `bool(distutils.util.strtobool(x))`, which evaluates input `x` to boolean: 
 - `{y,yes,t,true,on,1}` evaluate to `True`;
 - `{n,no,f,false,off,0}` evaluate to `False`;
 
-# Example
-To search for articles containing the keyword *detection* in the *title* but not in the *abstract* use:
-```
-python3 main.py --keywords detection --channel cs.CV --search_title yes --search_abstract no
-```
-
-# Extensions
+# Development
 Currently 'new' (today's) articles in the 'cs' domain are searched. 
 
 - Extend search:
