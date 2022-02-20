@@ -1,12 +1,18 @@
 # arxiv-news
-See the latest arXiv submissions filtered by keyword. 
+**See the latest arXiv submissions filtered by keyword.**
 
-Displayed using collapsible HTML buttons - show titles by default, expand title to show abstract and link - as displayed below.
+Displayed using collapsible HTML buttons - show titles by default, expand title to show abstract and link - see below.
 
-**============== Collapsed ==============**
+### **================== Collapsed ==================**
 ![Alt text](screen_collapsed.png)
-**============== Expanded ==============**
+
+### **================== Expanded ==================**
 ![Alt text](screen_expanded.png)
+
+
+### News
+:pushpin: [02/2022] support for X added
+
 
 # Requirements
 ```
