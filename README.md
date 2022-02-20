@@ -49,4 +49,4 @@ Currently 'new' (today's) articles in the 'cs' domain are searched.
   - upload/publish/email search results;
 
 # Tools
-**Web Scrapping**: BautifulSoup, HTML-CSS
+Web Scrapping, BautifulSoup, HTML/CSS
