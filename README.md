@@ -1,6 +1,6 @@
 # arxiv-news
-**See the latest arXiv submissions filtered by keyword.**
 
+**See the latest arXiv submissions filtered by keyword.**
 Displayed using collapsible HTML buttons - show titles by default, expand title to show abstract and link - see below.
 
 ### **================== Collapsed ==================**
@@ -8,11 +8,6 @@ Displayed using collapsible HTML buttons - show titles by default, expand title 
 
 ### **================== Expanded ==================**
 ![Alt text](images/screen_expanded.png)
-
-
-### News
-:pushpin: [02/2022] support for X added
-
 
 # Requirements
 ```
@@ -45,6 +40,11 @@ The code uses `bool(distutils.util.strtobool(x))`, which evaluates input `x` to 
 - `{n,no,f,false,off,0}` evaluate to `False`;
 
 # Development
+
+### Updates
+:pushpin: [02/2022] added support for any arXiv channel ('cs', 'cs.CV', 'stat', ...)
+
+### Todo
 Currently 'new' (today's) articles in the 'cs' domain are searched. 
 
 - Extend search:
