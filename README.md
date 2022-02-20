@@ -50,3 +50,8 @@ Currently 'new' (today's) articles in the 'cs' domain are searched.
 
 # Tools
 Web Scrapping, BautifulSoup, HTML/CSS
+
+# References
+- :information_source: arXiv: https://arxiv.org
+- :information_source: BautifulSoup: https://beautiful-soup-4.readthedocs.io/en/latest
+
