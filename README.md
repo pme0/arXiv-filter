@@ -1,12 +1,12 @@
 # arxiv-news
 
 **See the latest arXiv submissions filtered by keyword.**
-Displayed using collapsible HTML buttons - show titles by default, expand title to show abstract and link - see below.
+Displayed using collapsible HTML buttons - show titles by default - see below.
 
-### **================== Collapsed ==================**
+### --------------------------- Collapsed, shows title:
 ![Alt text](images/screen_collapsed.png)
 
-### **================== Expanded ==================**
+### ---------------------------- Expanded, shows title and abstract:
 ![Alt text](images/screen_expanded.png)
 
 # Requirements
@@ -15,13 +15,6 @@ pip install -r requirements.txt
 ```
 
 # Usage
-
-To search for articles containing the keyword *detection* in the *title* but not in the *abstract* use:
-```
-python3 main.py --keywords detection --channel cs.CV --search_title yes --search_abstract no
-```
-
-The general format is:
 ```
 python3 main.py
   --keywords [kw1 kw2 ...] 
@@ -38,6 +31,16 @@ where
 The code uses `bool(distutils.util.strtobool(x))`, which evaluates input `x` to boolean: 
 - `{y,yes,t,true,on,1}` evaluate to `True`;
 - `{n,no,f,false,off,0}` evaluate to `False`;
+
+# Example
+To search for articles containing the keyword *detection* in the *title* but not in the *abstract* use:
+```
+python3 main.py --keywords detection --channel cs.CV --search_title yes --search_abstract no
+```
+or with short arguments:
+```
+python3 main.py --kw detection --ch cs.CV --st y --sa n
+```
 
 # Development
 
