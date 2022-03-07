@@ -44,9 +44,6 @@ python3 main.py --kw detection --ch cs.CV --st y --sa n
 
 # Development
 
-### Updates
-:pushpin: [02/2022] added support for any arXiv channel ('cs', 'cs.CV', 'stat', ...)
-
 ### Todo
 Currently 'new' (today's) articles in the 'cs' domain are searched. 
 
