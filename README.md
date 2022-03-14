@@ -54,7 +54,7 @@ python3 main.py --kw detection --ch cs.CV --st y --sa n
   - upload/publish/email search results;
 
 # Tools
-Web Scrapping, BautifulSoup, HTML/CSS
+Web Scrapping, BautifulSoup, HTML
 
 # References
 - :information_source: arXiv: https://arxiv.org
