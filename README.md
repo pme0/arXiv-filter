@@ -45,8 +45,6 @@ python3 main.py --kw detection --ch cs.CV --st y --sa n
 # Development
 
 ### Todo
-Currently 'new' (today's) articles in the 'cs' domain are searched. 
-
 - Extend search:
   - other horizons instead of 'new' (e.g. 'pastweek', https://arxiv.org/list/cs/pastweek?skip=0&show=2000);
 - Dynamic search:
