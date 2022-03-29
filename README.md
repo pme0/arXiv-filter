@@ -1,7 +1,7 @@
 # arxiv-news
 
 **See the latest arXiv submissions filtered by keyword.**
-Displayed using collapsible HTML buttons - show titles by default - see below.
+Displayed using collapsible HTML buttons.
 
 ### --------------------------- Collapsed, shows title:
 ![Alt text](images/screen_collapsed.png)
