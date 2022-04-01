@@ -1,4 +1,4 @@
-# arxiv-news
+# arXiv-filter
 
 **See the latest arXiv submissions filtered by keyword.**
 Displayed using collapsible HTML buttons.
