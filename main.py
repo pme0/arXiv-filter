@@ -38,7 +38,7 @@ class news_generator:
 
         # The snippet defines the collapsible button.
         # The placeholders TITLE/LINK/ABSTRACT will be replace with the 
-        # coorresponding content for each article and the filled-in
+        # corresponding content for each article and the filled-in
         # snippet appended to the html page.
         self.snippet = """
         <button type="button" class="collapsible">TITLE</button>
@@ -183,15 +183,16 @@ class news_generator:
 
 if __name__ == "__main__":
 
-    # for readability
     args = parse_arguments()
+
+    # upper-case args for readability
     CHANNEL = args.channel
     KEYWORDS = args.keywords
     SEARCH_TITLE = args.search_title
     SEARCH_ABSTRACT = args.search_abstract
-
-    URL = "https://arxiv.org/list/{}/new".format(CHANNEL)
-
+    URL = f"https://arxiv.org/list/{CHANNEL}/new"
+    
+    # main code
     try:
         news = news_generator()
         news.progress('start')
@@ -202,3 +203,4 @@ if __name__ == "__main__":
         news.progress('end')
     except KeyboardInterrupt:
         print ('\nInterrupted by user.')
+        
