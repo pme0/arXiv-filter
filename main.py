@@ -13,8 +13,8 @@ def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("--keywords", "--kw", nargs='+', help="The keywords included in the search")
     parser.add_argument("--channel", "--ch", type=str, default="cs", help="The channel to seach (cs, stat, ...)")
-    parser.add_argument("--search_title", "st", "--title", default=True, type=lambda x: bool(strtobool(str(x))), help="Search title?")  # strtobool: True values (int: 1) are y, yes, t, true, on and 1. False values (int: 0) are n, no, f, false, off and 0"
-    parser.add_argument("--search_abstract", "sa", "--abstract", default=True, type=lambda x: bool(strtobool(str(x))), help="Search abstract?")
+    parser.add_argument("--search_title", "--st", "--title", default=True, type=lambda x: bool(strtobool(str(x))), help="Search title?")  # strtobool: True values (int: 1) are y, yes, t, true, on and 1. False values (int: 0) are n, no, f, false, off and 0"
+    parser.add_argument("--search_abstract", "--sa", "--abstract", default=True, type=lambda x: bool(strtobool(str(x))), help="Search abstract?")
     return parser.parse_args()
 
 
