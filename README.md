@@ -56,8 +56,3 @@ python3 main.py --kw detection --ch cs.CV --st y --sa n
 
 # Tools
 Web Scrapping, BautifulSoup, HTML
-
-# References
-- :information_source: arXiv: https://arxiv.org
-- :information_source: BautifulSoup: https://beautiful-soup-4.readthedocs.io/en/latest
-
