@@ -17,7 +17,7 @@ pip install -r requirements.txt
 
 # Usage
 ```
-python3 main.py
+python main.py
   --keywords [kw1 kw2 ...] 
   --channel [ch]
   --search_title [y/n]  
