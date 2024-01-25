@@ -1,12 +1,13 @@
 # arXiv-filter
 
-**See the latest arXiv submissions filtered by keyword.**
+See the latest arXiv submissions filtered by keywords.
+
 Displayed using collapsible HTML buttons.
 
-### --------------------------- Collapsed, shows title:
+### Collapsed view (shows title only):
 ![Alt text](images/screen_collapsed.png)
 
-### ---------------------------- Expanded, shows title and abstract:
+### Expanded view (shows title and abstract):
 ![Alt text](images/screen_expanded.png)
 
 # Requirements
